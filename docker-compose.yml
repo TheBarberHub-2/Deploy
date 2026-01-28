@@ -1,0 +1,88 @@
+services:
+  front-bank:
+    build:
+      context: .
+      dockerfile: Banco-front.Dockerfile
+    container_name: front-bank-tagme
+    environment:
+      VIRTUAL_HOST: bank-tagme.preproducciondaw.cip.fpmislata.com
+    networks:
+      - proxy_red
+  
+  front-adm:
+    build:
+      context: .
+      dockerfile: front-adm.Dockerfile
+    container_name: front-adm-tagme
+    environment:
+      VIRTUAL_HOST: adm-tagme.preproducciondaw.cip.fpmislata.com
+    networks:
+      - proxy_red
+
+  back-bank:
+    build:
+      context: .
+      dockerfile: banco-back.Dockerfile
+    container_name: back-bank-tagme
+    environment:
+      VIRTUAL_HOST: bank-back-tagme.preproducciondaw.cip.fpmislata.com
+      SPRING_PROFILES_ACTIVE: pre
+    depends_on:
+      mariadb-bank:
+        condition: service_healthy
+    networks:
+      - proxy_red
+
+  back-store:
+    build:
+      context: .
+      dockerfile: store-back.Dockerfile
+    container_name: back-store-tagme
+    environment:
+      VIRTUAL_HOST: store-back-tagme.preproducciondaw.cip.fpmislata.com
+      SPRING_PROFILES_ACTIVE: pre
+    depends_on:
+      mariadb-store:
+        condition: service_healthy
+    networks:
+      - proxy_red
+
+  mariadb-bank:
+    image: mariadb:latest
+    container_name: mariadb-tagme-bank
+    environment:
+      MYSQL_ROOT_PASSWORD: tagme-bank
+      MYSQL_DATABASE: db_tagme_bank
+      MYSQL_USER: tagme-bank
+      MYSQL_PASSWORD: tagme-bank
+    networks:
+      - proxy_red
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb -u tagme-bank -ptagme-bank -e 'SELECT 1'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  mariadb-store:
+    image: mariadb:latest
+    container_name: mariadb-tagme-store
+    environment:
+      MYSQL_ROOT_PASSWORD: tagme-store
+      MYSQL_DATABASE: db_tagme_store
+      MYSQL_USER: tagme-store
+      MYSQL_PASSWORD: tagme-store
+    networks:
+      - proxy_red
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb -u tagme-store -ptagme-store -e 'SELECT 1'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+networks:
+  proxy_red:
+    name: nginx-proxy-network
+    external: true
+
