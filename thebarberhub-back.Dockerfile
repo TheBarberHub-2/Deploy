@@ -7,9 +7,8 @@ RUN apt-get install -y git
  
 RUN mkdir /opt/app
 WORKDIR /opt/app
-RUN git clone https://github.com/TheBarberHub-2/tienda-back.git
+RUN git clone -b Despliegue https://github.com/TheBarberHub-2/tienda-back.git
 WORKDIR /opt/app/tienda-back/tienda
-RUN git switch --detach origin/Despliegue
 RUN mvn clean install -DskipTests
  
 EXPOSE 8080
