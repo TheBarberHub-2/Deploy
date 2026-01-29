@@ -11,7 +11,7 @@ RUN npm ci
 RUN npm run build --prod
 
 FROM nginx:1.28.0-alpine3.21
-COPY --from=build /opt/app/Banco-Front/dist/a/browser/ /usr/share/nginx/html
+COPY --from=build /opt/app/Banco-Front/dist/front-banco/browser/ /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
