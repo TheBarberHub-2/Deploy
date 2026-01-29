@@ -4,9 +4,8 @@ RUN apt-get update && apt-get install -y git
  
 RUN mkdir /opt/app
 WORKDIR /opt/app
-RUN git clone https://github.com/TheBarberHub-2/Front-Cliente.git
+RUN git clone -b Despliegue https://github.com/TheBarberHub-2/Front-Cliente.git
 WORKDIR /opt/app/Front-Cliente/Front-Cliente
-RUN git switch --detach origin/develop
 RUN npm install
 RUN npm run build --prod
 

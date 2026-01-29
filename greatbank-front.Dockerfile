@@ -4,9 +4,8 @@ RUN apt-get install -y git
  
 RUN mkdir /opt/app
 WORKDIR /opt/app
-RUN git clone https://github.com/TheBarberHub-2/Banco-Front.git
+RUN git clone -b Despliegue https://github.com/TheBarberHub-2/Banco-Front.git
 WORKDIR /opt/app/Banco-Front
-RUN git switch --detach origin/develop
 RUN npm ci
 RUN npm run build --prod
 

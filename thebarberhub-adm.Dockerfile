@@ -4,9 +4,8 @@ RUN apt-get install -y git
  
 RUN mkdir /opt/app
 WORKDIR /opt/app
-RUN git clone https://github.com/TheBarberHub-2/front-admin.git
+RUN git clone -b Despliegue https://github.com/TheBarberHub-2/front-admin.git
 WORKDIR /opt/app/front-admin
-RUN git switch --detach origin/develop
 RUN npm ci
 RUN npm run build --prod
 
