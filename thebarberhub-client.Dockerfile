@@ -7,7 +7,7 @@ WORKDIR /opt/app
 RUN git clone https://github.com/TheBarberHub-2/Front-Cliente.git
 WORKDIR /opt/app/Front-Cliente
 RUN git switch --detach origin/develop
-RUN npm ci
+RUN npm install
 RUN npm run build --prod
 
 FROM nginx:1.28.0-alpine3.21
