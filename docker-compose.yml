@@ -5,7 +5,7 @@ services:
       dockerfile: greatbank-front.Dockerfile
     container_name: greatbank-front
     environment:
-      VIRTUAL_HOST: greatbank.preproducciondaw.cip.fpmislata.com
+      VIRTUAL_HOST: greatbank.producciondaw.cip.fpmislata.com
     networks:
       - proxy_red
   
@@ -15,7 +15,7 @@ services:
       dockerfile: thebarberhub-adm.Dockerfile
     container_name: thebarberhub-front
     environment:
-      VIRTUAL_HOST: thebarberhub.preproducciondaw.cip.fpmislata.com
+      VIRTUAL_HOST: thebarberhub.producciondaw.cip.fpmislata.com
     networks:
       - proxy_red
 
@@ -25,7 +25,7 @@ services:
       dockerfile: greatbank-back.Dockerfile
     container_name: greatbank-back
     environment:
-      VIRTUAL_HOST: greatbank-back.preproducciondaw.cip.fpmislata.com
+      VIRTUAL_HOST: greatbank-back.producciondaw.cip.fpmislata.com
       SPRING_PROFILES_ACTIVE: pre
     depends_on:
       mysql-greatbank:
@@ -39,7 +39,7 @@ services:
       dockerfile: thebarberhub-back.Dockerfile
     container_name: thebarberhub-back
     environment:
-      VIRTUAL_HOST: thebarberhub-back.preproducciondaw.cip.fpmislata.com
+      VIRTUAL_HOST: thebarberhub-back.producciondaw.cip.fpmislata.com
       SPRING_PROFILES_ACTIVE: pre
     depends_on:
       mysql-thebarberhub:
