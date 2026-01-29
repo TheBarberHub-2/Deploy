@@ -10,7 +10,7 @@ WORKDIR /opt/app
 RUN git clone https://github.com/TheBarberHub-2/tienda-back.git
 WORKDIR /opt/app/tienda-back
 RUN git switch --detach origin/develop
-RUN mvn clean install -DskipTests
+RUN mvn clean install 
  
 EXPOSE 8080
 
