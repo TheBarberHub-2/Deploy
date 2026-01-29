@@ -9,7 +9,7 @@ RUN mkdir /opt/app
 WORKDIR /opt/app
 RUN git clone https://github.com/TheBarberHub-2/banco-back.git
 WORKDIR /opt/app/banco-back/banco
-RUN git switch --detach origin/develop
+RUN git switch --detach origin/Despliegue
 RUN mvn clean install -DskipTests
  
 EXPOSE 8080
