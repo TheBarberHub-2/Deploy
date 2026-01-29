@@ -1,81 +1,81 @@
 services:
-  front-bank:
+  front-greatbank:
     build:
       context: .
-      dockerfile: Banco-front.Dockerfile
-    container_name: front-bank-tagme
+      dockerfile: greatbank-front.Dockerfile
+    container_name: greatbank-front
     environment:
-      VIRTUAL_HOST: bank-tagme.preproducciondaw.cip.fpmislata.com
+      VIRTUAL_HOST: greatbank.preproducciondaw.cip.fpmislata.com
     networks:
       - proxy_red
   
-  front-adm:
+  front-thebarberhub:
     build:
       context: .
-      dockerfile: front-adm.Dockerfile
-    container_name: front-adm-tagme
+      dockerfile: thebarberhub-adm.Dockerfile
+    container_name: thebarberhub-front
     environment:
-      VIRTUAL_HOST: adm-tagme.preproducciondaw.cip.fpmislata.com
+      VIRTUAL_HOST: thebarberhub.preproducciondaw.cip.fpmislata.com
     networks:
       - proxy_red
 
-  back-bank:
+  back-greatbank:
     build:
       context: .
-      dockerfile: banco-back.Dockerfile
-    container_name: back-bank-tagme
+      dockerfile: greatbank-back.Dockerfile
+    container_name: greatbank-back
     environment:
-      VIRTUAL_HOST: bank-back-tagme.preproducciondaw.cip.fpmislata.com
+      VIRTUAL_HOST: greatbank-back.preproducciondaw.cip.fpmislata.com
       SPRING_PROFILES_ACTIVE: pre
     depends_on:
-      mariadb-bank:
+      mysql-greatbank:
         condition: service_healthy
     networks:
       - proxy_red
 
-  back-store:
+  back-thebarberhub:
     build:
       context: .
-      dockerfile: store-back.Dockerfile
-    container_name: back-store-tagme
+      dockerfile: thebarberhub-back.Dockerfile
+    container_name: thebarberhub-back
     environment:
-      VIRTUAL_HOST: store-back-tagme.preproducciondaw.cip.fpmislata.com
+      VIRTUAL_HOST: thebarberhub-back.preproducciondaw.cip.fpmislata.com
       SPRING_PROFILES_ACTIVE: pre
     depends_on:
-      mariadb-store:
+      mysql-thebarberhub:
         condition: service_healthy
     networks:
       - proxy_red
 
-  mariadb-bank:
-    image: mariadb:latest
-    container_name: mariadb-tagme-bank
+  mysql-greatbank:
+    image: mysql:8.0
+    container_name: mysql-greatbank
     environment:
-      MYSQL_ROOT_PASSWORD: tagme-bank
-      MYSQL_DATABASE: db_tagme_bank
-      MYSQL_USER: tagme-bank
-      MYSQL_PASSWORD: tagme-bank
+      MYSQL_ROOT_PASSWORD: greatbank
+      MYSQL_DATABASE: db_greatbank
+      MYSQL_USER: greatbank
+      MYSQL_PASSWORD: greatbank
     networks:
       - proxy_red
     healthcheck:
-      test: ["CMD-SHELL", "mariadb -u tagme-bank -ptagme-bank -e 'SELECT 1'"]
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-u", "greatbank", "-pgreatbank"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 30s
 
-  mariadb-store:
-    image: mariadb:latest
-    container_name: mariadb-tagme-store
+  mysql-thebarberhub:
+    image: mysql:8.0
+    container_name: mysql-thebarberhub
     environment:
-      MYSQL_ROOT_PASSWORD: tagme-store
-      MYSQL_DATABASE: db_tagme_store
-      MYSQL_USER: tagme-store
-      MYSQL_PASSWORD: tagme-store
+      MYSQL_ROOT_PASSWORD: thebarberhub
+      MYSQL_DATABASE: db_thebarberhub
+      MYSQL_USER: thebarberhub
+      MYSQL_PASSWORD: thebarberhub
     networks:
       - proxy_red
     healthcheck:
-      test: ["CMD-SHELL", "mariadb -u tagme-store -ptagme-store -e 'SELECT 1'"]
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-u", "thebarberhub", "-pthebarberhub"]
       interval: 10s
       timeout: 5s
       retries: 5
