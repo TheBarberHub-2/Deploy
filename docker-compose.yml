@@ -19,6 +19,16 @@ services:
     networks:
       - proxy_red
 
+  front-thebarberhub-client:
+    build:
+      context: .
+      dockerfile: thebarberhub-client.Dockerfile
+    container_name: thebarberhub-client
+    environment:
+      VIRTUAL_HOST: thebarberhub-client.producciondaw.cip.fpmislata.com
+    networks:
+      - proxy_red
+
   back-greatbank:
     build:
       context: .
