@@ -28,8 +28,7 @@ services:
       VIRTUAL_HOST: greatbank-back.producciondaw.cip.fpmislata.com
       SPRING_PROFILES_ACTIVE: pre
     depends_on:
-      mysql-greatbank:
-        condition: service_healthy
+      - mysql-greatbank
     networks:
       - proxy_red
 
@@ -42,8 +41,7 @@ services:
       VIRTUAL_HOST: thebarberhub-back.producciondaw.cip.fpmislata.com
       SPRING_PROFILES_ACTIVE: pre
     depends_on:
-      mysql-thebarberhub:
-        condition: service_healthy
+      - mysql-thebarberhub
     networks:
       - proxy_red
 
@@ -57,12 +55,6 @@ services:
       MYSQL_PASSWORD: greatbank
     networks:
       - proxy_red
-    healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
 
   mysql-thebarberhub:
     image: mysql:8.0
@@ -74,12 +66,6 @@ services:
       MYSQL_PASSWORD: thebarberhub
     networks:
       - proxy_red
-    healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
 
 networks:
   proxy_red:
