@@ -8,7 +8,7 @@ services:
       VIRTUAL_HOST: greatbank.producciondaw.cip.fpmislata.com
     networks:
       - proxy_red
-  
+
   front-thebarberhub:
     build:
       context: .
@@ -34,6 +34,7 @@ services:
       context: .
       dockerfile: greatbank-back.Dockerfile
     container_name: greatbank-back
+    restart: unless-stopped
     environment:
       VIRTUAL_HOST: greatbank-back.producciondaw.cip.fpmislata.com
       SPRING_PROFILES_ACTIVE: pre
@@ -47,6 +48,7 @@ services:
       context: .
       dockerfile: thebarberhub-back.Dockerfile
     container_name: thebarberhub-back
+    restart: unless-stopped
     environment:
       VIRTUAL_HOST: thebarberhub-back.producciondaw.cip.fpmislata.com
       SPRING_PROFILES_ACTIVE: pre
@@ -56,8 +58,9 @@ services:
       - proxy_red
 
   mysql-greatbank:
-    image: mysql:8.0
+    image: mysql:8.0-oracle
     container_name: mysql-greatbank
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: greatbank
       MYSQL_DATABASE: db_greatbank
@@ -69,8 +72,9 @@ services:
       - proxy_red
 
   mysql-thebarberhub:
-    image: mysql:8.0
+    image: mysql:8.0-oracle
     container_name: mysql-thebarberhub
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: thebarberhub
       MYSQL_DATABASE: db_thebarberhub
@@ -85,4 +89,3 @@ networks:
   proxy_red:
     name: nginx-proxy-network
     external: true
-
