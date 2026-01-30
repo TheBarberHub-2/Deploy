@@ -38,6 +38,7 @@ services:
     environment:
       VIRTUAL_HOST: greatbank-back.producciondaw.cip.fpmislata.com
       SPRING_PROFILES_ACTIVE: pre
+      SERVER_PORT: 8080
     depends_on:
       - mysql-greatbank
     networks:
@@ -52,6 +53,7 @@ services:
     environment:
       VIRTUAL_HOST: thebarberhub-back.producciondaw.cip.fpmislata.com
       SPRING_PROFILES_ACTIVE: pre
+      SERVER_PORT: 8080
     depends_on:
       - mysql-thebarberhub
     networks:
