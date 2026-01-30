@@ -58,7 +58,7 @@ services:
       - proxy_red
 
   mysql-greatbank:
-    image: mysql:8.0
+    image: mariadb:10.11
     container_name: mysql-greatbank
     restart: unless-stopped
     environment:
@@ -72,7 +72,7 @@ services:
       - proxy_red
 
   mysql-thebarberhub:
-    image: mysql:8.0
+    image: mariadb:10.11
     container_name: mysql-thebarberhub
     restart: unless-stopped
     environment:
