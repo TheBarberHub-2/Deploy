@@ -1,61 +1,73 @@
-DROP DATABASE IF EXISTS db_greatbank;
-CREATE DATABASE IF NOT EXISTS db_greatbank;
+CREATE DATABASE IF NOT EXISTS banco_barber;
 
-USE db_greatbank;
+USE banco_barber;
 
-CREATE TABLE IF NOT EXISTS cuentas (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    numero_cuenta VARCHAR(20) NOT NULL UNIQUE,
-    tipo_cuenta VARCHAR(20) NOT NULL,
-    saldo DOUBLE NOT NULL,
-    titular VARCHAR(200) NOT NULL,
-    CONSTRAINT chk_tipo_cuenta CHECK (tipo_cuenta IN ('EMPRESA', 'PERSONAL'))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE clientes (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    login VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    nombre VARCHAR(50) NOT NULL,
+    apellido1 VARCHAR(50) NOT NULL,
+    apellido2 VARCHAR(50),
+    dni VARCHAR(9) NOT NULL UNIQUE,
+    api_token VARCHAR(255)
+);
 
--- ============================================
--- Table: transferencias
--- ============================================
-CREATE TABLE IF NOT EXISTS transferencias (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    cuenta_origen VARCHAR(20) NOT NULL,
-    cuenta_destino VARCHAR(20) NOT NULL,
-    monto DOUBLE NOT NULL,
-    fecha DATETIME NOT NULL,
-    concepto VARCHAR(200),
-    CONSTRAINT chk_monto CHECK (monto > 0)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE cuentas_bancarias (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    cliente_id BIGINT NOT NULL,
+    iban VARCHAR(50) NOT NULL UNIQUE,
+    saldo DECIMAL(38,2) NOT NULL,
+FOREIGN KEY (cliente_id) REFERENCES clientes(id) ON DELETE CASCADE
+);
 
--- ============================================
--- Mock Data - Cuentas EMPRESA
--- ============================================
-INSERT INTO cuentas (numero_cuenta, tipo_cuenta, saldo, titular) VALUES
-('1111111111', 'EMPRESA', 50000.00, 'Barbería Premium SL'),
-('2222222222', 'EMPRESA', 75000.00, 'Salón de Belleza Elegance SA'),
-('3333333333', 'EMPRESA', 120000.00, 'Peluquería El Corte Perfecto SL'),
-('4444444444', 'EMPRESA', 35000.00, 'Barbershop Vintage & Co'),
-('5555555555', 'EMPRESA', 90000.00, 'Centro Estético Deluxe SL');
+CREATE TABLE tarjetas_credito (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    cuenta_id BIGINT NOT NULL,
+    numero_tarjeta VARCHAR(30) NOT NULL UNIQUE,
+    fecha_caducidad VARCHAR(10) NOT NULL,
+    cvc VARCHAR(3) NOT NULL,
+    nombre_completo VARCHAR(100) NOT NULL,
+    FOREIGN KEY (cuenta_id) REFERENCES cuentas_bancarias(id) ON DELETE CASCADE
+);
 
--- ============================================
--- Mock Data - Cuentas PERSONAL
--- ============================================
-INSERT INTO cuentas (numero_cuenta, tipo_cuenta, saldo, titular) VALUES
-('6666666666', 'PERSONAL', 5000.00, 'Juan Pérez García'),
-('7777777777', 'PERSONAL', 8500.00, 'María López Fernández'),
-('8888888888', 'PERSONAL', 12000.00, 'Carlos Rodríguez Martínez'),
-('9999999999', 'PERSONAL', 3200.00, 'Ana Sánchez Torres'),
-('1010101010', 'PERSONAL', 15000.00, 'Pedro Gómez Ruiz');
+CREATE TABLE movimientos_bancarios (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+cuenta_id BIGINT NOT NULL,
+    tipo_movimiento ENUM('DEBE', 'HABER') NOT NULL,
+    origen_movimiento ENUM('TRANSFERENCIA', 'DOMICILIACION', 'TARJETA_BANCARIA') NOT NULL,
+    tarjeta_credito_id BIGINT,
+    fecha DATETIME(6) NOT NULL,
+    importe DECIMAL(38,2) NOT NULL,
+    concepto VARCHAR(255) NOT NULL,
+    FOREIGN KEY (tarjeta_credito_id) REFERENCES tarjetas_credito(id),
+    FOREIGN KEY (cuenta_id) REFERENCES cuentas_bancarias(id) ON DELETE CASCADE
+);
 
--- ============================================
--- Mock Data - Transferencias históricas
--- ============================================
-INSERT INTO transferencias (cuenta_origen, cuenta_destino, monto, fecha, concepto) VALUES
-('1111111111', '6666666666', 1500.00, '2026-01-01 10:30:00', 'Pago de nómina - Enero'),
-('2222222222', '7777777777', 2000.00, '2026-01-02 14:15:00', 'Salario mensual'),
-('3333333333', '8888888888', 2500.00, '2026-01-03 09:45:00', 'Pago de servicios profesionales'),
-('1111111111', '2222222222', 5000.00, '2026-01-04 11:20:00', 'Transferencia entre empresas'),
-('6666666666', '7777777777', 500.00, '2026-01-05 16:30:00', 'Préstamo personal'),
-('4444444444', '9999999999', 1200.00, '2026-01-05 17:00:00', 'Pago de comisiones'),
-('5555555555', '1010101010', 3000.00, '2026-01-06 10:00:00', 'Bonus trimestral'),
-('8888888888', '6666666666', 800.00, '2026-01-06 12:30:00', 'Devolución de préstamo'),
-('3333333333', '5555555555', 10000.00, '2026-01-07 08:15:00', 'Inversión conjunta'),
-('7777777777', '9999999999', 300.00, '2026-01-07 09:00:00', 'Regalo de cumpleaños');
+CREATE TABLE sesion (
+id BIGINT PRIMARY KEY AUTO_INCREMENT,
+usuario_id BIGINT NOT NULL,
+token VARCHAR(100) UNIQUE NOT NULL,
+expired_date DATE,
+FOREIGN KEY (usuario_id) REFERENCES clientes(id) ON DELETE CASCADE
+);
+
+INSERT INTO clientes (login, password, nombre, apellido1, apellido2, dni, api_token) VALUES
+('TheBarberHub', '1234', 'TheBarberHub', 'Store', 'Main', '12345678A', 'token_barber_001'),
+('juan123', '1234', 'Juan', 'Pérez', 'García', '12345678B', 'token_juan_001');
+
+INSERT INTO cuentas_bancarias (cliente_id, iban, saldo) VALUES
+(1, 'ES12 3456 7890 1111 1111 1111', 2500.00),
+(1, 'ES98 7654 3210 2222 2222 2222', 4800.50),
+(2, 'ES55 1234 5678 3333 3333 3333', 1200.75),
+(2, 'ES44 8765 4321 4444 4444 4444', 3050.20);
+
+INSERT INTO tarjetas_credito (cuenta_id, numero_tarjeta, fecha_caducidad, cvc, nombre_completo) VALUES
+(1, '4111111111111111', '12/28', '123', 'TheBarberHub Store'),
+(1, '5500000000000004', '07/29', '456', 'TheBarberHub Store'),
+(2, '4000123412341234', '03/27', '321', 'TheBarberHub Store'),
+(2, '5100510051005100', '11/30', '654', 'TheBarberHub Store'),
+(3, '4111222233334444', '09/28', '987', 'Juan Pérez García'),
+(3, '5500999988887777', '01/29', '741', 'Juan Pérez García'),
+(4, '4000999911112222', '05/27', '852', 'Juan Pérez García'),
+(4, '5100123412341234', '10/30', '369', 'Juan Pérez García');
