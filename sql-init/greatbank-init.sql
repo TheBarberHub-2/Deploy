@@ -52,22 +52,27 @@ CREATE TABLE sesion (
 	FOREIGN KEY		(usuario_id) REFERENCES clientes(id) ON DELETE CASCADE
 );
 
-INSERT INTO clientes (login, password, nombre, apellido1, apellido2, dni, api_token) VALUES 
-('TheBarberHub', '1234', 'TheBarberHub', 'Store', 'Main', '12345678A', 'token_barber_001'),
-('juan123', '1234', 'Juan', 'Pérez', 'García', '12345678B', 'token_juan_001');
+
+INSERT INTO clientes (login, password, nombre, apellido1, apellido2, dni, api_token) VALUES
+('TheBarberHub', '1234', 'Administrador', 'Administrador', NULL, '11111111A', 'token_barber_001'),
+('Pel. Valencia', '1234', 'Barbería', 'Valencia', NULL, '22222222B', 'token_pelu_001'),
+('Pel. Madrid', '1234', 'Barbería', 'Madrid', NULL, '33333333C', 'token_pelu_002'),
+('juan123', '1234', 'Juan', 'Pérez', NULL, '44444444D', 'token_juan_002'),
+('MariaCliente', '1234', 'María', 'López', NULL, '55555555E', 'token_maria_001'),
+('Andreu Alfonso', '1234', 'Andreu', 'Alfonso', NULL, '66666666F', 'token_andreu_001');
 
 INSERT INTO cuentas_bancarias (cliente_id, iban, saldo) VALUES
 (1, 'ES12 3456 7890 1111 1111 1111', 2500.00),
-(1, 'ES98 7654 3210 2222 2222 2222', 4800.50),
-(2, 'ES55 1234 5678 3333 3333 3333', 1200.75),
-(2, 'ES44 8765 4321 4444 4444 4444', 3050.20);
+(2, 'ES55 1234 5678 3333 3333 3333', 1200.75), -- Barbería Valencia
+(3, 'ES44 8765 4321 4444 4444 4444', 3050.20), -- Barbería Madrid
+(4, 'ES00 0000 0000 0000 0000 0004', 800.00),  -- Juan
+(5, 'ES00 0000 0000 0000 0000 0005', 950.00),  -- María
+(6, 'ES00 0000 0000 0000 0000 0006', 1100.00); -- Andreu
 
 INSERT INTO tarjetas_credito (cuenta_id, numero_tarjeta, fecha_caducidad, cvc, nombre_completo) VALUES
-(1, '4111 1111 1111 1111', '2028-12', '123', 'TheBarberHub Store'),
-(1, '5500 0000 0000 0004', '2029-07', '456', 'TheBarberHub Store'),
-(2, '4000 1234 1234 1234', '2027-03', '321', 'TheBarberHub Store'),
-(2, '5100 5100 5100 5100', '2030-11', '654', 'TheBarberHub Store'),
-(3, '4111 2222 3333 4444', '2028-09', '987', 'Juan Pérez García'),
-(3, '5500 9999 8888 7777', '2029-01', '741', 'Juan Pérez García'),
-(4, '4000 9999 1111 2222', '2027-05', '852', 'Juan Pérez García'),
-(4, '5100 1234 1234 1234', '2030-01', '369', 'Juan Pérez García');
+(1, '4111 1111 1111 0001', '2030-12', '123', 'Administrador'),
+(2, '4111 1111 1111 0002', '2030-12', '456', 'Barbería Valencia'),
+(3, '4111 1111 1111 0003', '2030-12', '789', 'Barbería Madrid'),
+(4, '4111 1111 1111 0004', '2030-12', '159', 'Juan Pérez'),
+(5, '4111 1111 1111 0005', '2030-12', '753', 'María López'),
+(6, '4111 1111 1111 0006', '2030-12', '951', 'Andreu Alfonso');

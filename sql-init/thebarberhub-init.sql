@@ -110,50 +110,55 @@ CREATE TABLE reservas_productos (
 );
 
 INSERT INTO usuarios (email, contrasenya, nombre, rol) VALUES
-('admin@thebarberhub.com','1234','Administrador','Admin'),
-('peluqueria_valencia@gmail.com','1234','Barbería Valencia','Peluqueria'),
-('peluqueria_madrid@gmail.com','1234','Barbería Madrid','Peluqueria'),
-('juan.cliente@gmail.com','1234','Juan Pérez','Cliente'),
-('maria.cliente@gmail.com','1234','María López','Cliente'),
-('andreualfonso05@gmail.com','1234','Andreu Alfonso','Cliente');
+('admin@thebarberhub.com', '1234', 'Administrador', 'Admin'),
+('peluqueria_valencia@gmail.com', '1234', 'Barbería Valencia', 'Peluqueria'),
+('peluqueria_madrid@gmail.com', '1234', 'Barbería Madrid', 'Peluqueria'),
+('juan.cliente@gmail.com', '1234', 'Juan Pérez', 'Cliente'),
+('maria.cliente@gmail.com', '1234', 'María López', 'Cliente'),
+('andreualfonso05@gmail.com', '1234', 'Andreu Alfonso', 'Cliente');
 
 INSERT INTO peluquerias (usuario_id, municipio, direccion, telefono, iban) VALUES
-(2,'Valencia','Calle Colón 25','600123456','ES5512345678333333333333'),
-(3,'Madrid','Gran Vía 100','611987654','ES4487654321444444444444');
+(2, 'Valencia', 'Calle Colón 25', '600123456', 'ES55 1234 5678 3333 3333 3333'),
+(3, 'Madrid', 'Gran Vía 100', '611987654', 'ES44 8765 4321 4444 4444 4444');
 
 INSERT INTO categorias (nombre, descripcion) VALUES
-('Corte de pelo','Servicio de corte y peinado'),
-('Corte de barba','Arreglo y perfilado de barba'),
-('Tinte','Aplicación de color en el cabello'),
-('Afeitado clásico','Afeitado con toalla caliente y navaja');
+('Corte de pelo', 'Servicio de corte y peinado'),
+('Corte de barba', 'Arreglo y perfilado de barba'),
+('Tinte', 'Aplicación de color en el cabello'),
+('Afeitado clásico', 'Afeitado con toalla caliente y navaja');
 
+-- Productos de Barbería Valencia
 INSERT INTO productos (categoria_id, peluqueria_id, nombre, precio, duracion) VALUES
-(1,1,'Corte clásico',12.00,30),
-(1,1,'Corte moderno',15.00,40),
-(2,1,'Arreglo barba',10.00,20),
-(3,1,'Tinte completo',25.00,60),
-(4,1,'Afeitado premium',18.00,35),
-(1,2,'Corte rápido',10.00,20),
-(1,2,'Corte estilizado',18.00,45),
-(2,2,'Perfilado barba',12.00,25),
-(3,2,'Mechas',30.00,75),
-(4,2,'Afeitado clásico',15.00,30);
+(1, 1, 'Corte clásico', 12.00, 30),
+(1, 1, 'Corte moderno', 15.00, 40),
+(2, 1, 'Arreglo barba', 10.00, 20),
+(3, 1, 'Tinte completo', 25.00, 60),
+(4, 1, 'Afeitado premium', 18.00, 35);
 
+-- Productos de Barbería Madrid
+INSERT INTO productos (categoria_id, peluqueria_id, nombre, precio, duracion) VALUES
+(1, 2, 'Corte rápido', 10.00, 20),
+(1, 2, 'Corte estilizado', 18.00, 45),
+(2, 2, 'Perfilado barba', 12.00, 25),
+(3, 2, 'Mechas', 30.00, 75),
+(4, 2, 'Afeitado clásico', 15.00, 30);
+
+-- Lunes a miércoles: turno partido
 INSERT INTO peluquerias_horarios (peluqueria_id, dia_semana, hora_apertura, hora_cierre) VALUES
-(1,1,'10:00:00','14:00:00'),
-(1,1,'16:00:00','20:00:00'),
-(1,2,'10:00:00','14:00:00'),
-(1,2,'16:00:00','20:00:00'),
-(1,3,'10:00:00','14:00:00'),
-(1,3,'16:00:00','20:00:00'),
-(1,4,'10:00:00','20:00:00'),
-(1,5,'10:00:00','20:00:00'),
-(1,6,'10:00:00','14:00:00'),
-(2,1,'10:00:00','14:00:00'),
-(2,1,'16:00:00','20:00:00'),
-(2,2,'10:00:00','14:00:00'),
-(2,2,'16:00:00','20:00:00'),
-(2,3,'10:00:00','20:00:00'),
-(2,4,'10:00:00','20:00:00'),
-(2,5,'10:00:00','20:00:00'),
-(2,6,'10:00:00','14:00:00');
+(1, 1, '10:00:00', '14:00:00'),
+(1, 1, '16:00:00', '20:00:00'),
+(1, 2, '10:00:00', '14:00:00'),
+(1, 2, '16:00:00', '20:00:00'),
+(1, 3, '10:00:00', '14:00:00'),
+(1, 3, '16:00:00', '20:00:00'),
+(1, 4, '10:00:00', '20:00:00'),
+(1, 5, '10:00:00', '20:00:00'),
+(1, 6, '10:00:00', '14:00:00'),
+(2, 1, '10:00:00', '14:00:00'),
+(2, 1, '16:00:00', '20:00:00'),
+(2, 2, '10:00:00', '14:00:00'),
+(2, 2, '16:00:00', '20:00:00'),
+(2, 3, '10:00:00', '20:00:00'),
+(2, 4, '10:00:00', '20:00:00'),
+(2, 5, '10:00:00', '20:00:00'),
+(2, 6, '10:00:00', '14:00:00');
