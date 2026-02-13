@@ -7,7 +7,7 @@ RUN apt-get install -y git
 
 RUN mkdir /opt/app
 WORKDIR /opt/app
-RUN git clone -b develop https://github.com/TheBarberHub-2/tienda-back.git
+RUN git clone -b PRE https://github.com/TheBarberHub-2/tienda-back.git
 WORKDIR /opt/app/tienda-back/tienda
 RUN mvn clean install -DskipTests
 

@@ -7,7 +7,7 @@ RUN apt-get install -y git
 
 RUN mkdir /opt/app
 WORKDIR /opt/app
-RUN git clone -b develop https://github.com/TheBarberHub-2/banco-back.git
+RUN git clone -b PRE https://github.com/TheBarberHub-2/banco-back.git
 WORKDIR /opt/app/banco-back/banco
 RUN mvn clean install -DskipTests
 
